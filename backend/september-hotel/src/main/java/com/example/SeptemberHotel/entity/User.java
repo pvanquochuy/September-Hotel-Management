@@ -43,6 +43,12 @@ public class User implements UserDetails  {
         return email;
     }
 
+    // **Explicitly override getPassword()**
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return UserDetails.super.isAccountNonExpired();
