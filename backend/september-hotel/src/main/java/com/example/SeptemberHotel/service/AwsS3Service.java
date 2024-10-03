@@ -18,7 +18,7 @@ import java.io.InputStream;
 // Nó tương tự như một thư mục chứa các tệp tin (objects) và có thể chứa vô số tệp tin.
 
 /**
- *  tải lên hình ảnh vào một S3 Bucket của AWS
+ *  tải hình ảnh lên một S3 Bucket của AWS.
  */
 @Service
 public class AwsS3Service {
