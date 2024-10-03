@@ -1,4 +1,4 @@
-package com.example.SeptemberHotel.sercurity;
+package com.example.SeptemberHotel.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

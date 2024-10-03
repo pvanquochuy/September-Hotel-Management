@@ -3,6 +3,7 @@ package com.example.SeptemberHotel.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -15,6 +16,7 @@ import java.util.function.Function;
 /*
 *  Tạo, phân tích và xác thực JWT
 * */
+@Service
 public class JWTUtils {
 
     private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7; // for 7 days
