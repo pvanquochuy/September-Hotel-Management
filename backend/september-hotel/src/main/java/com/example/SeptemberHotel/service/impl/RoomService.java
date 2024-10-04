@@ -10,12 +10,14 @@ import com.example.SeptemberHotel.service.interfac.IRoomService;
 import com.example.SeptemberHotel.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
 public class RoomService implements IRoomService {
 
     @Autowired
