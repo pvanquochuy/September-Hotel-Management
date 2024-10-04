@@ -33,7 +33,7 @@ public class SecurityConfig {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults()) //Áp dụng cấu hình CORS
                 .authorizeHttpRequests(request -> request //  Định nghĩa quy tắc phân quyền:
-                        .requestMatchers("/auth/**", "rooms/**", "/bookings/**").permitAll() //  Cho phép truy cập không cần xác thực vào các endpoint
+                        .requestMatchers("/auth/**", "/rooms/**" ,"/bookings/**").permitAll() //  Cho phép truy cập không cần xác thực vào các endpoint
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

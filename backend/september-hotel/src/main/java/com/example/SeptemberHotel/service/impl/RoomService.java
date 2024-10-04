@@ -13,9 +13,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.math.BigDecimal;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoomService implements IRoomService {
@@ -29,9 +33,13 @@ public class RoomService implements IRoomService {
     public Response addNewRoom(MultipartFile photo, String roomType, BigDecimal roomPrice, String description) {
         Response response = new Response();
         try{
-            String imageUrl = awsS3Service.saveImageToS3(photo);
+//            String imageUrl = awsS3Service.saveImageToS3(photo);
             Room room = new Room();
-            room.setRoomPhotoUrl(imageUrl);
+            if(!photo.isEmpty()){
+                byte[] photoBytes = photo.getBytes();
+                Blob photoBlob = new SerialBlob(photoBytes);
+                room.setPhoto(photoBlob);
+            }
             room.setRoomType(roomType);
             room.setRoomPrice(roomPrice);
             room.setRoomDescription(description);
@@ -96,18 +104,21 @@ public class RoomService implements IRoomService {
     }
 
     @Override
-    public Response updateRoom(Long roomId, String description ,String roomType, BigDecimal roomPrice, MultipartFile photo) {
+    public Response updateRoom(Long roomId, String description , String roomType, BigDecimal roomPrice, byte[] photoBytes) {
         Response response = new Response();
         try{
-            String imageUrl = null;
-            if(photo != null && !photo.isEmpty()){
-                imageUrl = awsS3Service.saveImageToS3(photo);
-            }
+
             Room room= roomRepository.findById(roomId).orElseThrow(()-> new OurException("Room not found"));
             if(roomType != null) room.setRoomType(roomType);
             if(roomPrice != null) room.setRoomPrice(roomPrice);
             if(description != null) room.setRoomDescription(description);
-            if(imageUrl != null) room.setRoomPhotoUrl(imageUrl);
+            if(photoBytes != null  && photoBytes.length > 0){
+                try{
+                    room.setPhoto(new SerialBlob(photoBytes));
+                }catch (SQLException e){
+                    throw new OurException("Error updating room");
+                }
+            }
 
             Room updateRoom = roomRepository.save(room);
             RoomDTO roomDTO = Utils.mapRoomEntityToRoomDTO(updateRoom);
@@ -180,5 +191,18 @@ public class RoomService implements IRoomService {
             response.setMessage("Error find a room " + e.getMessage());
         }
         return response;
+    }
+
+    @Override
+    public byte[] getRoomPhotoByRoomId(Long roomId) throws SQLException {
+        Optional<Room> theRoom = roomRepository.findById(roomId);
+        if(theRoom.isEmpty()){
+            throw new OurException("Sorry, Room not found!");
+        }
+        Blob photoBlob = theRoom.get().getPhoto();
+        if(photoBlob != null){
+            return photoBlob.getBytes(1, (int) photoBlob.length());
+        }
+        return new byte[0];
     }
 }

@@ -46,7 +46,7 @@ public class Utils {
         roomDTO.setId(room.getId());
         roomDTO.setRoomType(room.getRoomType());
         roomDTO.setRoomPrice(room.getRoomPrice());
-        roomDTO.setRoomPhotoUrl(room.getRoomPhotoUrl());
+        roomDTO.setPhoto(room.getPhoto());
         roomDTO.setRoomDescription(room.getRoomDescription());
         return roomDTO;
     }
@@ -72,7 +72,7 @@ public class Utils {
         roomDTO.setId(room.getId());
         roomDTO.setRoomType(room.getRoomType());
         roomDTO.setRoomPrice(room.getRoomPrice());
-        roomDTO.setRoomPhotoUrl(room.getRoomPhotoUrl());
+        roomDTO.setPhoto(room.getPhoto());
         roomDTO.setRoomDescription(room.getRoomDescription());
 
         if (room.getBookings() != null) {
@@ -103,7 +103,7 @@ public class Utils {
             roomDTO.setId(booking.getRoom().getId());
             roomDTO.setRoomType(booking.getRoom().getRoomType());
             roomDTO.setRoomPrice(booking.getRoom().getRoomPrice());
-            roomDTO.setRoomPhotoUrl(booking.getRoom().getRoomPhotoUrl());
+            roomDTO.setPhoto(booking.getRoom().getPhoto());
             roomDTO.setRoomDescription(booking.getRoom().getRoomDescription());
             bookingDTO.setRoom(roomDTO);
         }

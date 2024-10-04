@@ -1,5 +1,6 @@
 package com.example.SeptemberHotel.security;
 
+import com.example.SeptemberHotel.service.CustomeUserDetailService;
 import com.example.SeptemberHotel.utils.JWTUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -32,7 +33,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     @Autowired
     private JWTUtils jwtUtils; //  sử dụng để tạo và xác thực token JWT.
     @Autowired
-    private CachingUserDetailsService cachingUserDetailsService; // : Được sử dụng để tải thông tin người dùng dựa trên email (hoặc username)
+    private CustomeUserDetailService customeUserDetailService; // : Được sử dụng để tải thông tin người dùng dựa trên email (hoặc username)
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -50,7 +51,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
         // Kiểm Tra và Xác Thực Token
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = cachingUserDetailsService.loadUserByUsername(userEmail);
+            UserDetails userDetails = customeUserDetailService.loadUserByUsername(userEmail);
             if(jwtUtils.isValidToken(jwtToken, userDetails)){
                 SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +17,11 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String bookingConfirmationCode;
+//    private String bookingConfirmationCode;
     private String roomType;
     private BigDecimal roomPrice;
-    private String roomPhotoUrl;
+    @Lob
+    private Blob photo;
     private String roomDescription;
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Booking> bookings = new ArrayList<>();
@@ -28,10 +30,9 @@ public class Room {
     public String toString() {
         return "Room{" +
                 "id=" + id +
-                ", bookingConfirmationCode='" + bookingConfirmationCode + '\'' +
                 ", roomType='" + roomType + '\'' +
                 ", roomPrice=" + roomPrice +
-                ", roomPhotoUrl='" + roomPhotoUrl + '\'' +
+                ", photo='" + photo + '\'' +
                 ", roomDescription='" + roomDescription + '\''+
                 '}';
     }

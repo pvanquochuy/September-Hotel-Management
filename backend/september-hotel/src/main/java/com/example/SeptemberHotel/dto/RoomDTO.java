@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class RoomDTO {
     private Long id;
     private String roomType;
     private BigDecimal roomPrice;
-    private String roomPhotoUrl;
+    private Blob photo;
     private String roomDescription;
     private List<BookingDTO> bookings;
 }
